@@ -12,16 +12,26 @@ fields:
         type: dropdown
         span: left
         dependsOn: type
+    h1:
+        label: utopigs.seo::lang.seo.h1
+        span: left
+        attributes:
+            maxlength: 255
     title:
         label: utopigs.seo::lang.seo.title
         span: left
+        comment: utopigs.seo::lang.seo.title_append_info
         attributes:
-            maxlength: 70
+            maxlength: 255
+    no_append:
+        label: utopigs.seo::lang.seo.no_append
+        span: left
+        type: checkbox
     description:
         label: utopigs.seo::lang.seo.description
         span: left
         attributes:
-            maxlength: 155
+            maxlength: 255
     keywords:
         label: utopigs.seo::lang.seo.keywords
         span: left

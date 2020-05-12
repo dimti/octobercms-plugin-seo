@@ -8,9 +8,7 @@ columns:
     model_title:
         label: utopigs.seo::lang.seo.page
         sortable: false
+    h1:
+        label: utopigs.seo::lang.seo.h1
     title:
         label: utopigs.seo::lang.seo.title
-    description:
-        label: utopigs.seo::lang.seo.description
-    keywords:
-        label: utopigs.seo::lang.seo.keywords

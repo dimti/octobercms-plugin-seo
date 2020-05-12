@@ -18,7 +18,7 @@ Validator::extend('type_unique', function($attribute, $value, $parameters, $vali
         isset($data['id']) ? 'id' : NULL,
         ['type' => $validator->getData()['type']]
     );
-    
+
     return $count == 0;
 });
 
@@ -41,8 +41,9 @@ class Seo extends Model
     public $rules = [
         'type' => 'required',
         'reference' => 'required|type_unique',
-        'title' => 'required|max:70',
-        'description' => 'required|max:155',
+        'h1' => 'max:255',
+        'title' => 'required|max:255',
+        'description' => 'max:255',
         'keywords' => 'max:255',
     ];
 
@@ -51,6 +52,7 @@ class Seo extends Model
     ];
 
     public $translatable = [
+    	'h1',
     	'title',
     	'description',
         'keywords'

@@ -52,7 +52,12 @@ class Seo extends ComponentBase
 
         if ($seo) {
             $this->page->hasSeo = true;
-            $this->page->meta_title = $this->page->title = ($prepend ? ($prepend . ' ') : '') . $seo->title . ($append ? (' ' . $append) : '');
+            $this->page->meta_h1 = $this->page->h1 = $seo->h1;
+            $this->page->meta_title = $this->page->title =
+                ($prepend ? ($prepend . ' ') : '') .
+                $seo->title .
+                (!$seo->no_append ? ($append ? (' ' . $append) : '') : '')
+            ;
             $this->page->meta_description = $this->page->description = $seo->description;
             $this->page->meta_keywords = $this->page->keywords = $seo->keywords;
             $this->page->seo_image = $seo->image;

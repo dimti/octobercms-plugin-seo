@@ -20,3 +20,6 @@
 1.1.6:
     - Try to retrieve image from defaults if not specified
     - Autofill properties for blog post and category pages
+1.1.7:
+    - Add meta h1 field & add flag to turned off title appendix
+    - 2020_05_12_062853_add_meta_h1_and_no_append_into_utopigs_seo_data_table.php

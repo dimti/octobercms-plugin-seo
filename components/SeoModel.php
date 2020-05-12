@@ -69,6 +69,9 @@ class SeoModel extends ComponentBase
 
             if ($seo_default_values) {
                 $seo_defaults = new \Utopigs\Seo\Models\Seo;
+                if (isset($seo_default_values['h1'])) {
+                    $seo_defaults->title = $seo_default_values['h1'];
+                }
                 if (isset($seo_default_values['title'])) {
                     $seo_defaults->title = $seo_default_values['title'];
                 }
@@ -107,7 +110,12 @@ class SeoModel extends ComponentBase
         }
 
         $this->page->hasSeo = true;
-        $this->page->meta_title = $this->page->title = ($prepend ? ($prepend . ' ') : '') . $seo->title . ($append ? (' ' . $append) : '');
+        $this->page->meta_h1 = $this->page->h1 = $seo->h1;
+        $this->page->meta_title = $this->page->title =
+            ($prepend ? ($prepend . ' ') : '') .
+            $seo->title .
+            (!$seo->no_append ? ($append ? (' ' . $append) : '') : '')
+        ;
         $this->page->meta_description = $this->page->description = $seo->description;
         if ($seo->keywords) {
             $this->page->meta_keywords = $this->page->keywords = $seo->keywords;
