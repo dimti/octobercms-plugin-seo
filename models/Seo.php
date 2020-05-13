@@ -2,10 +2,9 @@
 
 use Model;
 use Event;
+use October\Rain\Database\Concerns\HasRelationships;
+use Utopigs\Seo\Contracts\Seoable;
 use Validator;
-use ValidationException;
-use Cms\Classes\Page;
-use Cms\Classes\Theme;
 
 Validator::extend('type_unique', function($attribute, $value, $parameters, $validator) {
     $presenceVerifier = $validator->getPresenceVerifier();
@@ -25,6 +24,8 @@ Validator::extend('type_unique', function($attribute, $value, $parameters, $vali
 class Seo extends Model
 {
     use \October\Rain\Database\Traits\Validation;
+
+    const MORPH_RELATION_NAME = 'seoable';
 
     public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
 
@@ -60,6 +61,17 @@ class Seo extends Model
 
     public $attachOne = [
         'image' => 'System\Models\File'
+    ];
+
+    /**
+     * @var array
+     * @see HasRelationships::handleRelation
+     */
+    public $morphTo = [
+        self::MORPH_RELATION_NAME => [
+            'id' => 'reference',
+            'type' => 'type',
+        ]
     ];
 
     public function getTypeOptions()
@@ -172,24 +184,59 @@ class Seo extends Model
                                 }
                             }
                         }
-
                     }
                     return $items;
                 }
             }
         }
+    }
 
+    protected function checkMorphedModelIsSeoableReady()
+    {
+        $modelMorphedAndReady = false;
+
+        if (class_exists($this->type)) {
+            /**
+             * @var $model \October\Rain\Database\Model|Seoable
+             */
+            $model = new $this->type;
+
+            foreach ($model->morphOne as $relationName => $relationDefinition) {
+                if (array_key_exists('name', $relationDefinition) &&
+                    $relationDefinition['name'] == self::MORPH_RELATION_NAME
+                ) {
+                    /**
+                     * @see https://stackoverflow.com/a/43516229
+                     */
+                    try {
+                        $this->checkModelSeoableContract($model);
+                    } catch (\Error $e) {
+                    } catch (\Throwable $e) {
+                    }
+                }
+            }
+        }
+    }
+
+    private function checkModelSeoableContract(Seoable $model)
+    {
     }
 
     public function getModelTitleAttribute()
     {
+        if ($this->checkMorphedModelIsSeoableReady() && $seoable = $this->seoable) {
+            /**
+             * @var $seoable Seoable
+             */
+            return $seoable->getModelTitle();
+        }
+
         $apiResult = Event::fire('pages.menuitem.getTypeInfo', [$this->type]);
 
         if (is_array($apiResult)) {
-
             $itemReference = $this->reference;
 
-            $iterator = function($items, $nesting = true) use (&$iterator, $itemReference) {
+            $iterator = function ($items, $nesting = true) use (&$iterator, $itemReference) {
                 if (isset($items[$itemReference])) {
                     if (is_array($items[$itemReference])) {
                         if (isset($items[$itemReference]['title'])) {
