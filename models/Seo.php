@@ -3,6 +3,7 @@
 use Model;
 use Event;
 use October\Rain\Database\Concerns\HasRelationships;
+use Termiyanc\Store\Models\Category;
 use Utopigs\Seo\Contracts\Seoable;
 use Validator;
 
@@ -131,7 +132,18 @@ class Seo extends Model
             }
         }
 
-        $apiResult = Event::fire('pages.menuitem.getTypeInfo', [$type]);
+        switch ($type) {
+            case Category::class:
+                if ($item = Category::find($this->reference)) {
+                    $apiResult = [[ 'references' => [$item->id => $item->getModelTitle()] ]];
+                } else {
+                    $apiResult = Event::fire('pages.menuitem.getTypeInfo', [$type]);
+                }
+                break;
+            default:
+                $apiResult = Event::fire('pages.menuitem.getTypeInfo', [$type]);
+                break;
+        }
 
         $items = [];
 
