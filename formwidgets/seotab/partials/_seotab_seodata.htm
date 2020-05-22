@@ -3,6 +3,7 @@
         $seoData->translateContext($locale); ?>
         <p class="help-block"><strong>[<?= $locale ?>]</strong></p>
         <p class="help-block"><?= trans("utopigs.seo::lang.seo.title")?>: <?= $seoData->title ?></p>
+        <p class="help-block"><?= trans("utopigs.seo::lang.seo.h1")?>: <?= $seoData->h1 ?></p>
         <p class="help-block"><?= trans("utopigs.seo::lang.seo.description")?>: <?= $seoData->description ?></p>
         <?php if ($seoData->keywords) { ?>
         <p class="help-block"><?= trans("utopigs.seo::lang.seo.keywords")?>: <?= $seoData->keywords ?></p>
@@ -13,7 +14,7 @@
         <p class="help-block"><strong><?= trans("utopigs.seo::lang.seo.image")?>:</strong></p>
         <p class="help-block">
         <img height="260px" src="<?= $seoData->image->path ?>"></p>
-    <?php } ?>        
+    <?php } ?>
     <br />
     <a class="btn btn-default" type="button" href="<?= $editSeoUrl ?>">
     <?= trans("utopigs.seo::lang.seotab.button")?>
