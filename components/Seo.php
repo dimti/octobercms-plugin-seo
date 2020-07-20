@@ -56,14 +56,18 @@ class Seo extends ComponentBase
             $this->page->meta_title = $this->page->title =
                 ($prepend ? ($prepend . ' ') : '') .
                 $seo->title .
-                (!$seo->no_append ? ($append ? (' ' . $append) : '') : '')
+                (!($seo->no_append && $this->page->seo_no_append) ? ($append ? (' ' . $append) : '') : '')
             ;
             $this->page->meta_description = $this->page->description = $seo->description;
             $this->page->meta_keywords = $this->page->keywords = $seo->keywords;
             $this->page->seo_image = $seo->image;
         } else {
             if ($this->page->meta_title && $prepend || $append) {
-                $this->page->meta_title = $this->page->title = ($prepend ? ($prepend . ' ') : '') . ($this->page->meta_title ? $this->page->meta_title : $this->page->title) . ($append ? (' ' . $append) : '');
+                $this->page->meta_title = $this->page->title =
+                    ($prepend ? ($prepend . ' ') : '') .
+                    ($this->page->meta_title ? $this->page->meta_title : $this->page->title) .
+                    (!$this->page->seo_no_append ? ($append ? (' ' . $append) : '') : '')
+                ;
             }
         }
     }
