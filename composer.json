@@ -8,12 +8,16 @@
         {
             "name": "Utopig Studio",
             "email": "info@utopigstudio.com"
+        },
+        {
+            "name": "WP Studio",
+            "email": "info@wpstudio.ru"
         }
     ],
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/utopigstudio/octobercms-plugin-seo"
+            "url": "https://github.com/dimti/octobercms-plugin-seo"
         }
     ],
     "require": {
